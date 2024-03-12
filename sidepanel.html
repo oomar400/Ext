@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script type="module" src="side_panel.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>My Side Panel</title>
+  </head>
+  <body>
+    <select name="deck-list" id="deck-list">
+        <option value="empty">select deck</option>
+    </select>
+    <div>
+        <div id="empty-deck"></div>
+        <div id="sidePanelContent">
+        </div>
+    </div>
+
+    <div id="utility">
+        <!-- <input id="deck-name-input" placeholder="deck name" type="text"> -->
+        <!-- <button id="create-deck">Create Deck</button> -->
+        <div id="toast-container"></div>
+        <button id="show-dialog">Create</button>
+        <button id="delete-deck">Delete</button>
+        <button id="download-deck">Download</button>
+        <dialog id="create-deck-dialog">
+            <form id="create-deck-form">
+                <label for="deck-name-input">Deck Name:</label>
+                <input id="deck-name-input" name="deck-name" type="text">
+                <button type="submit">Create</button>
+                <button id="close-dialog">Close</button>
+            </form>
+        </dialog>
+    </div>
+  </body>
+</html>
