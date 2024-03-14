@@ -1,5 +1,11 @@
 import { getDeck, getDeckList, createDeck, deleteDeck} from "./Storage.js";
 
+
+/**
+ * Sets the empty status message for the deck.
+ * @param {boolean} display - Whether to display the empty status message.
+ */
+
 function setEmptyStatus(display){
     const emptyContainer = document.getElementById('empty-deck');
     if(display){
@@ -10,10 +16,19 @@ function setEmptyStatus(display){
     }
 }
 
+/**
+ * Updates the current deck in the background script.
+ * @param {string} deck - The name of the deck to update to.
+ */
 async function updateCurrentDeck(deck){
     await chrome.runtime.sendMessage({ action: 'deckChange', newDeck : deck });
 }
 
+
+/**
+ * Removes a selection option from the deck list.
+ * @param {string} option - The deck name option to remove from the deck list displayed in the HTML.
+ */
 function removeSelectionOption(option){
     let select = document.getElementById("deck-list");
     let selectOption = select.options[select.selectedIndex].value
@@ -22,11 +37,20 @@ function removeSelectionOption(option){
     }
 }
 
+/**
+ * Gets the currently selected deck from the deck list.
+ * @returns {string} The name of the currently selected deck.
+ */
 function getCurrentDeck(){
     let select = document.getElementById("deck-list");
     let selectOption = select.options[select.selectedIndex].value
     return selectOption
 }
+
+/**
+ * Deletes a deck from the storage and updates the UI accordingly.
+ * @param {string} deckName - The name of the deck to delete.
+ */
 function deleteDeckHTML(deckName){
     deleteDeck(deckName, result => {
         if(result.status === true){
@@ -39,6 +63,11 @@ function deleteDeckHTML(deckName){
         }
     })
 }
+
+/**
+ * Displays a toast message on the screen.
+ * @param {string} message - The message to display in the toast.
+ */
 function toast(message){
     const toastContainer = document.getElementById('toast-container');
     toastContainer.textContent = message
@@ -47,6 +76,10 @@ function toast(message){
         toastContainer.style.display = 'none';
     }, 3000);
 }
+
+/**
+ * Creates a new deck in the storage and updates the UI accordingly.
+ */
 function createDeckHtml(){
     const deckName = document.getElementById("deck-name-input").value;
     if(deckName){
@@ -63,6 +96,9 @@ function createDeckHtml(){
     }
 }
 
+/**
+ * Gets the list of decks from the storage and updates the deck list UI.
+ */
 function getCurrentDeckList(){
     var list = document.getElementById("deck-list");
     var option = document.createElement('option');
@@ -78,6 +114,11 @@ function getCurrentDeckList(){
         }
     })
 }
+
+/**
+ * Updates the deck list UI with a new deck.
+ * @param {string} deckName - The name of the deck to add to the list.
+ */
 function updateDeckList(deckName){
     var list = document.getElementById("deck-list");
     var option = document.createElement('option');
@@ -90,6 +131,11 @@ function updateDeckList(deckName){
 }
 
 
+/**
+ * Creates a new card div element based on the card data.
+ * @param {Object} card - The card object containing front and back properties.
+ * @returns {HTMLElement} The created card div element.
+ */
 function createCardDiv(card) {
     // Create a new div element
     var cardDiv = document.createElement('div');
@@ -111,6 +157,12 @@ function createCardDiv(card) {
     return cardDiv;
 }
 
+
+/**
+ * Formats the card data into a string for download.
+ * @param {Array<Object>} CardData - An array of card objects containing front and back properties.
+ * @returns {string} The formatted card data string.
+ */
 function formatCardData(CardData){
     let outString = "";
     CardData.forEach((card) => {
@@ -120,6 +172,9 @@ function formatCardData(CardData){
     return outString;
 }
 
+/**
+ * Handles the download of a deck as a text file.
+ */
 function handleDownload(){
     const deckName = getCurrentDeck();
 
@@ -195,7 +250,7 @@ document.addEventListener('DOMContentLoaded', function() {
     })
 
     chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-        if (message.action === 'reloadPanel') {
+        if (message.action === 'cardAdded') {
             setEmptyStatus(false);
             var cardDiv = createCardDiv(message.card);
             sidePanelContent.appendChild(cardDiv);

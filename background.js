@@ -30,7 +30,7 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
   } else if (info.menuItemId === "addBack" && currentCard.Front != null) {
       currentCard.Deck = currDeck;
       currentCard.Back = info.selectionText;
-      await chrome.runtime.sendMessage({ action: 'reloadPanel', card : currentCard });
+      await chrome.runtime.sendMessage({ action: 'cardAdded', card : currentCard });
       createFlashcard(currentCard);
   }
 });
