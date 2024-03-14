@@ -9,19 +9,6 @@
     "background": {
       "service_worker": "background.js",
       "type" : "module"
-    },
-
-    "content_scripts": [
-      {
-        "matches": [
-          "<all_urls>"
-        ],
-        "js": [
-          "side_panel.js"
-        ],
-        "type":"module"
-      }
-    ]
-
+    }
   }
   
